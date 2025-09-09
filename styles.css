@@ -91,11 +91,11 @@ body{
   color: var(--text); text-decoration: none; font-weight: 800; letter-spacing: .2px;
 }
 .brand-logo{
-  display: inline-grid; place-items: center;
-  width: 36px; height: 36px; border-radius: 10px;
-  background: linear-gradient(135deg, var(--brand), var(--brand-2));
-  color: white; font-weight: 800;
-  box-shadow: var(--shadow);
+  display: inline-block;
+  width: 36px; height: 36px;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
 }
 .brand-text{ font-size: 1rem; }
 .nav a{
