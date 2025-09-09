@@ -5,8 +5,8 @@
   --panel-2: #1b1b21;
   --text: #f5f6f8;
   --muted: #b8bcc6;
-  --brand: #9c56fc;
-  --brand-2: #6d1bbc;
+  --brand: #ff4d4f;
+  --brand-2: #c81d25;
   --border: #23232b;
 
   /* Schaduw & radius */
@@ -29,8 +29,8 @@ body{
   margin: 0;
   font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color: var(--text);
-  background: radial-gradient(1200px 800px at 70% -10%, rgba(156,86,252,.25), transparent) no-repeat,
-              radial-gradient(800px 600px at -10% 20%, rgba(109,27,188,.18), transparent) no-repeat,
+  background: radial-gradient(1200px 800px at 70% -10%, rgba(255,77,79,.25), transparent) no-repeat,
+              radial-gradient(800px 600px at -10% 20%, rgba(200,29,37,.18), transparent) no-repeat,
               var(--bg);
   line-height: 1.6;
 }
