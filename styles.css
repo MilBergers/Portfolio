@@ -219,6 +219,12 @@ body{
   background: #191923; color: var(--muted); border: 1px solid var(--border);
   font-size: .9rem; font-weight: 600;
 }
+/* Branded style for project tags */
+.project-tags span{
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  color: #fff;
+  border-color: rgba(255,255,255,.12);
+}
 
 /* Skills marquee */
 .marquee{ position: relative; overflow: hidden; }
