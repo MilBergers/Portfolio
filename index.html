@@ -15,7 +15,12 @@
         <span class="brand-logo" aria-hidden="true">EB</span>
         <span class="brand-text">Emile Bergers</span>
       </a>
-      <nav class="nav">
+      <button class="nav-toggle" aria-label="Menu openen" aria-controls="site-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
+        </svg>
+      </button>
+      <nav class="nav" id="site-nav" aria-label="Hoofdmenu">
         <a href="#over-mij">Over mij</a>
         <a href="#skills">Skills</a>
         <a href="#projecten">Projecten</a>
@@ -234,7 +239,7 @@
 
           <!-- Muzikale Spiegel (2025) -->
           <article class="project-card">
-            <img src="/Assets/images/muzikale-spiegel.webp" alt="Muzikale Spiegel — smart mirror genereert live muziek op expressie" />
+            <img src="Assets/images/muzikale-spiegel.webp" alt="Muzikale Spiegel — smart mirror genereert live muziek op expressie" />
             <div class="project-content">
               <h3>Muzikale Spiegel <span class="year">2025</span></h3>
               <p>Smart mirror die live muziek genereert op basis van gezichtsuitdrukking.</p>
@@ -294,6 +299,29 @@
   <script>
     // huidig jaar tonen in footer
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // mobiel nav menu toggle
+    (function(){
+      var navToggle = document.querySelector('.nav-toggle');
+      var nav = document.getElementById('site-nav');
+      if(!navToggle || !nav) return;
+      function closeOnOutsideClick(event){
+        if(!nav.contains(event.target) && !navToggle.contains(event.target)){
+          nav.classList.remove('is-open');
+          navToggle.setAttribute('aria-expanded', 'false');
+          document.removeEventListener('click', closeOnOutsideClick);
+        }
+      }
+      navToggle.addEventListener('click', function(){
+        var isOpen = nav.classList.toggle('is-open');
+        navToggle.setAttribute('aria-expanded', String(isOpen));
+        if(isOpen){
+          setTimeout(function(){ document.addEventListener('click', closeOnOutsideClick); }, 0);
+        } else {
+          document.removeEventListener('click', closeOnOutsideClick);
+        }
+      });
+    })();
   </script>
 </body>
 </html>

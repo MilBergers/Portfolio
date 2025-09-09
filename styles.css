@@ -103,6 +103,35 @@ body{
 }
 .nav a:hover{ color: var(--text); }
 
+/* Navigation (responsive) */
+.nav-toggle{
+  display: none;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  align-items: center; justify-content: center;
+  cursor: pointer;
+}
+.nav-toggle:hover{ color: var(--brand); border-color: rgba(255,255,255,.18); }
+
+@media (max-width: 650px){
+  .header-inner{ position: relative; }
+  .nav-toggle{ display: inline-flex; }
+  .nav{
+    position: absolute; top: 100%; right: 0;
+    display: none; flex-direction: column; gap: .4rem;
+    padding: .6rem;
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    border: 1px solid var(--border);
+    border-radius: 12px; box-shadow: var(--shadow);
+    min-width: 200px;
+  }
+  .nav a{ margin: 0; padding: .6rem .8rem; }
+  .nav.is-open{ display: flex; }
+}
+
 /* Hero */
 .hero{
   padding: clamp(3rem, 6vw, 6rem) 0 clamp(2rem, 4vw, 4rem);
