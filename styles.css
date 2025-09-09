@@ -107,20 +107,67 @@ body{
 }
 .nav-toggle:hover{ color: var(--brand); border-color: rgba(255,255,255,.18); }
 
+/* Hamburger icon -> X morph */
+.nav-toggle-box{ position: relative; width: 22px; height: 16px; display: inline-block; }
+.nav-toggle .line,
+.nav-toggle .line::before,
+.nav-toggle .line::after{
+  position: absolute; left: 0; right: 0; height: 2px;
+  background: currentColor; border-radius: 2px;
+  content: "";
+}
+.nav-toggle .line{ top: 50%; transform: translateY(-50%); }
+.nav-toggle .line::before{ transform: translateY(-6px); }
+.nav-toggle .line::after{ transform: translateY(6px); }
+
+/* Smooth transforms */
+.nav-toggle .line{ transition: background-color .45s ease; }
+.nav-toggle .line::before,
+.nav-toggle .line::after{ transition: transform .5s ease; }
+
+/* Expanded state → X */
+.nav-toggle[aria-expanded="true"] .line{ background: transparent; }
+.nav-toggle[aria-expanded="true"] .line::before{ transform: translateY(0) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .line::after{ transform: translateY(0) rotate(-45deg); }
+
 @media (max-width: 650px){
   .header-inner{ position: relative; }
   .nav-toggle{ display: inline-flex; }
   .nav{
     position: absolute; top: 100%; right: 0;
-    display: none; flex-direction: column; gap: .4rem;
+    display: flex; flex-direction: column; gap: .4rem;
     padding: .6rem;
     background: linear-gradient(180deg, var(--panel), var(--panel-2));
     border: 1px solid var(--border);
     border-radius: 12px; box-shadow: var(--shadow);
     min-width: 200px;
+
+    opacity: 0;
+    transform: translateY(6px) scale(.98);
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .42s ease, transform .5s ease, visibility 0s linear .5s;
+    will-change: transform, opacity;
   }
-  .nav a{ margin: 0; padding: .6rem .8rem; }
-  .nav.is-open{ display: flex; }
+  .nav a{ 
+    margin: 0; padding: .6rem .8rem; 
+    opacity: 0; 
+    transform: translateY(4px);
+    transition: opacity .35s ease, transform .45s ease;
+  }
+  .nav.is-open{ 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+    visibility: visible; 
+    pointer-events: auto; 
+    transition: opacity .42s ease, transform .5s ease, visibility 0s; 
+  }
+  .nav.is-open a{ opacity: 1; transform: translateY(0); }
+  .nav.is-open a:nth-child(1){ transition-delay: .06s; }
+  .nav.is-open a:nth-child(2){ transition-delay: .12s; }
+  .nav.is-open a:nth-child(3){ transition-delay: .18s; }
+  .nav.is-open a:nth-child(4){ transition-delay: .24s; }
+  .nav.is-open a:nth-child(5){ transition-delay: .30s; }
 }
 
 /* Hero */
