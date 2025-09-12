@@ -333,10 +333,50 @@ body{
 /* Center CV button vertically inside its card */
 #cv-brief{
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 #cv-brief .cta{
   margin-top: 0;
+  margin-bottom: 1.2rem; /* add space below CV button */
+}
+
+/* Social links under CV */
+#cv-brief .social-links{
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-top: .6rem;
+}
+#cv-brief .icon{
+  display: inline-block;
+  width: 28px; height: 28px;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,.35));
+}
+#cv-brief .icon-link{
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #191923;
+  transition: transform .2s ease, border-color .2s ease;
+}
+#cv-brief .icon-link:hover{
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,.18);
+}
+
+/* Make the LinkedIn SVG use brand gradient via mask */
+.icon-linkedin{
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  -webkit-mask: url('Assets/images/linkedin.svg') no-repeat center / contain;
+  mask: url('Assets/images/linkedin.svg') no-repeat center / contain;
+  background-clip: border-box;
 }
 
 /* Footer */
