@@ -295,6 +295,12 @@ body{
   padding: 1rem;
   background: #23232b;
 }
+.project-card img.project-logo.atlas-logo{
+  background: #ffffff;
+  padding: 0.5rem;
+  object-fit: scale-down;
+  height: 220px;
+}
 .project-card img.project-image-bacardi{
   object-fit: contain;
   background: #1a1a1f;
