@@ -485,15 +485,36 @@ body{
   border-color: rgba(255,255,255,.18);
 }
 
-/* Make the LinkedIn SVG use brand gradient via mask */
-.icon-linkedin{
+/* Make the Social SVGs use brand gradient via mask */
+.icon-linkedin,
+.icon-github,
+.icon-instagram {
   width: 24px;
   height: 24px;
   display: inline-block;
   background: linear-gradient(135deg, var(--brand), var(--brand-2));
-  -webkit-mask: url('Assets/images/linkedin.svg') no-repeat center / contain;
-  mask: url('Assets/images/linkedin.svg') no-repeat center / contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
   background-clip: border-box;
+}
+
+.icon-linkedin {
+  -webkit-mask-image: url('Assets/images/linkedin.svg');
+  mask-image: url('Assets/images/linkedin.svg');
+}
+
+.icon-github {
+  -webkit-mask-image: url('Assets/images/github.svg');
+  mask-image: url('Assets/images/github.svg');
+}
+
+.icon-instagram {
+  -webkit-mask-image: url('Assets/images/instagram.svg');
+  mask-image: url('Assets/images/instagram.svg');
 }
 
 /* Footer */
