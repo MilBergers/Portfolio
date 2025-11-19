@@ -208,7 +208,14 @@ body{
 .hero h1{
   font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1.15; margin: 0 0 .6rem 0;
-  min-height: 1.15em; /* Reserve space to prevent layout shift */
+  /* Reserve space to prevent layout shift */
+  min-height: 2.3em; 
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+@media (min-width: 600px){
+  .hero h1{ min-height: 1.15em; } /* On larger screens, 1 line is enough */
 }
 /* Typewriter cursor */
 #typewriter::after {
