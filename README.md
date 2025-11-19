@@ -1,6 +1,6 @@
 # Portfolio — Emile Bergers
 
-A modern, responsive portfolio website showcasing projects and skills in Interactive Media Development.
+A modern, responsive portfolio website showcasing projects and skills.
 
 ## Technologies
 
