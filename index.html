@@ -172,6 +172,20 @@
       </div>
     </section>
 
+    <!-- Toggle Section -->
+    <section class="toggle-section">
+      <div class="container">
+        <h2 class="toggle-title">Zie het verschil</h2>
+        <div class="toggle-container">
+          <span class="toggle-label">Zonder mij</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="broken-toggle" aria-label="Toggle broken CSS" checked>
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-label">Met mij</span>
+        </div>
+      </div>
+    </section>
 
     <!-- Projecten -->
     <section id="projecten" class="section">
@@ -210,6 +224,7 @@
           <!-- Gimber Marketing Plan (2025) -->
           <article class="project-card reveal">
             <video
+              id="gimber-video"
               src="Assets/videos/GimberVid.mp4"
               autoplay
               muted
@@ -456,8 +471,17 @@
       let wordIndex = 0;
       let charIndex = 0;
       let isDeleting = false;
+      let typewriterTimeout = null;
+      
+      // Store timeout ID and type function globally so it can be controlled
+      window.typewriterTimeout = null;
+      window.restartTypewriter = null;
       
       function type() {
+        // Check if broken mode is enabled
+        if (document.getElementById('broken-stylesheet')) {
+          return; // Stop typing if broken mode is active
+        }
 
         const currentWord = words[wordIndex];
         
@@ -481,11 +505,22 @@
           typeSpeed = 500; // Pause before typing next word
         }
         
-        setTimeout(type, typeSpeed);
+        typewriterTimeout = setTimeout(type, typeSpeed);
+        window.typewriterTimeout = typewriterTimeout;
       }
       
+      // Function to restart typewriter
+      window.restartTypewriter = function() {
+        if (window.typewriterTimeout) {
+          clearTimeout(window.typewriterTimeout);
+        }
+        typewriterTimeout = setTimeout(type, 100);
+        window.typewriterTimeout = typewriterTimeout;
+      };
+      
       // Start typing after a short delay
-      setTimeout(type, 500);
+      typewriterTimeout = setTimeout(type, 500);
+      window.typewriterTimeout = typewriterTimeout;
     })();
 
     // huidig jaar tonen in footer
@@ -536,6 +571,135 @@
         backToTop.classList.remove('visible');
       }
     });
+
+    // Broken CSS Toggle
+    (function() {
+      var toggle = document.getElementById('broken-toggle');
+      var brokenStylesheet = null;
+      var revealObserver = null;
+
+      function enableBrokenMode() {
+        // Load broken.css
+        if (!brokenStylesheet) {
+          brokenStylesheet = document.createElement('link');
+          brokenStylesheet.rel = 'stylesheet';
+          brokenStylesheet.href = 'broken.css';
+          brokenStylesheet.id = 'broken-stylesheet';
+          document.head.appendChild(brokenStylesheet);
+        }
+
+        // Stop typewriter animation
+        if (window.typewriterTimeout) {
+          clearTimeout(window.typewriterTimeout);
+          window.typewriterTimeout = null;
+        }
+
+        // Hide back to top button
+        var backToTop = document.getElementById('back-to-top');
+        if (backToTop) {
+          backToTop.style.display = 'none';
+        }
+
+        // Disable card tilt effects by removing event listeners
+        var cards = document.querySelectorAll('.project-card');
+        cards.forEach(function(card) {
+          card.style.transform = 'none';
+          card.style.transition = 'none';
+          card.style.pointerEvents = 'auto';
+        });
+
+        // Disable scroll reveal observer
+        var reveals = document.querySelectorAll('.reveal');
+        if (revealObserver) {
+          reveals.forEach(function(element) {
+            revealObserver.unobserve(element);
+          });
+        }
+        // Make all reveals visible immediately
+        reveals.forEach(function(element) {
+          element.classList.add('active');
+        });
+
+        // Stop marquee animations
+        var marqueeTracks = document.querySelectorAll('.marquee-track');
+        marqueeTracks.forEach(function(track) {
+          track.style.animation = 'none';
+        });
+      }
+
+      function disableBrokenMode() {
+        // Remove broken.css
+        if (brokenStylesheet) {
+          brokenStylesheet.remove();
+          brokenStylesheet = null;
+        }
+
+        // Restore back to top button
+        var backToTop = document.getElementById('back-to-top');
+        if (backToTop) {
+          backToTop.style.display = '';
+        }
+
+        // Restore card tilt effects (event listeners are still attached)
+        var cards = document.querySelectorAll('.project-card');
+        cards.forEach(function(card) {
+          card.style.transform = '';
+          card.style.transition = '';
+          card.style.pointerEvents = '';
+        });
+        
+        // Restore scroll reveal
+        var reveals = document.querySelectorAll('.reveal');
+        reveals.forEach(function(element) {
+          element.classList.remove('active');
+        });
+        
+        // Re-initialize reveal observer
+        revealObserver = new IntersectionObserver(function(entries, observer) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          root: null,
+          threshold: 0.15,
+          rootMargin: "0px 0px -50px 0px"
+        });
+        reveals.forEach(function(element) {
+          revealObserver.observe(element);
+        });
+
+        // Restore marquee animations
+        var marqueeTracks = document.querySelectorAll('.marquee-track');
+        marqueeTracks.forEach(function(track) {
+          track.style.animation = '';
+        });
+
+        // Restart typewriter
+        if (window.restartTypewriter) {
+          window.restartTypewriter();
+        }
+      }
+
+      if (toggle) {
+        // Enable broken mode on page load if toggle is unchecked (zonder mij)
+        if (!toggle.checked) {
+          enableBrokenMode();
+        }
+        
+        toggle.addEventListener('change', function() {
+          if (this.checked) {
+            // Toggle ON = "met mij" = normal CSS
+            disableBrokenMode();
+          } else {
+            // Toggle OFF = "zonder mij" = broken CSS
+            enableBrokenMode();
+          }
+        });
+      }
+    })();
 
   </script>
 </body>
