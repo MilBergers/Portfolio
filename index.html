@@ -172,6 +172,7 @@
       </div>
     </section>
 
+
     <!-- Projecten -->
     <section id="projecten" class="section">
       <div class="container">
@@ -354,9 +355,28 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>© <span id="year"></span> Emile Bergers — Portfolio</p>
-      <a class="link" href="#top">Terug naar boven ↑</a>
     </div>
   </footer>
+
+  <!-- Floating Back to Top Button with Progress Ring -->
+  <a href="#top" id="back-to-top" class="back-to-top" aria-label="Terug naar boven">
+    <svg class="progress-ring" width="100%" height="100%" viewBox="0 0 48 48">
+      <circle 
+        class="progress-ring__circle" 
+        stroke="currentColor" 
+        stroke-width="2.5" 
+        fill="transparent" 
+        r="22" 
+        cx="24" 
+        cy="24"
+      />
+    </svg>
+    <span class="back-to-top-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 15l-6-6-6 6"/>
+      </svg>
+    </span>
+  </a>
 
   <script>
     // Mouse tracking for spotlight effect
@@ -438,6 +458,7 @@
       let isDeleting = false;
       
       function type() {
+
         const currentWord = words[wordIndex];
         
         if (isDeleting) {
@@ -492,6 +513,30 @@
         }
       });
     })();
+
+    // Scroll Progress Ring & Back to Top
+    window.addEventListener('scroll', function() {
+      var scrollTop = window.scrollY;
+      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      var scrollPercent = scrollTop / docHeight; // 0 to 1
+      
+      // Update Progress Ring
+      var circle = document.querySelector('.progress-ring__circle');
+      var radius = circle.r.baseVal.value;
+      var circumference = 2 * Math.PI * radius;
+      
+      var offset = circumference - (scrollPercent * circumference);
+      circle.style.strokeDashoffset = offset;
+
+      // Toggle Visibility
+      var backToTop = document.getElementById('back-to-top');
+      if (scrollTop > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
   </script>
 </body>
 </html>

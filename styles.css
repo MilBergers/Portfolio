@@ -22,6 +22,7 @@
   --space-5: 3rem;
 }
 
+
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 html{ scroll-behavior: smooth; }
@@ -44,6 +45,95 @@ body{
   
   background-attachment: fixed; /* Keeps the background fixed relative to viewport */
   line-height: 1.6;
+}
+
+/* Scroll Progress Bar */
+/* Removed as requested in favor of ring */
+
+/* Back to Top Button */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 3rem;
+  height: 3rem;
+  /* Removed background/border to let SVG ring be the border */
+  background: rgba(20, 20, 24, 0.8);
+  backdrop-filter: blur(8px);
+  border-radius: 50%;
+  color: var(--brand); /* Default color for icon */
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  text-decoration: none;
+  box-shadow: var(--shadow);
+  z-index: 90;
+  
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  /* Smooth fade out: Delay visibility switch until opacity is done */
+  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, visibility 0s linear 0.3s;
+}
+
+/* The Progress Ring SVG */
+.progress-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg); /* Start at top */
+  z-index: 1;
+  pointer-events: none; /* Ensure click passes to link */
+}
+.progress-ring__circle {
+  stroke: var(--brand);
+  transition: stroke-dashoffset 0.1s linear;
+  /* Circumference = 2 * PI * 22 ≈ 138.23 */
+  stroke-dasharray: 138.23 138.23; 
+  stroke-dashoffset: 138.23; /* Start empty */
+}
+
+/* The Icon centered inside */
+.back-to-top-icon {
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  transition: transform 0.3s ease;
+}
+.back-to-top-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  /* Smooth fade in: No delay on visibility */
+  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, visibility 0s linear 0s;
+}
+
+.back-to-top:hover {
+  /* Hover glow effect */
+  box-shadow: 0 0 20px rgba(255, 77, 79, 0.35);
+}
+.back-to-top:hover .back-to-top-icon {
+  color: var(--brand);
+  transform: translateY(-2px);
+}
+/* Add a faint background track for the ring */
+.back-to-top::before {
+  content: "";
+  position: absolute;
+  top: 2px; left: 2px; right: 2px; bottom: 2px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.05);
 }
 
 /* Layout helpers */
@@ -231,7 +321,6 @@ body{
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
-
 .hero p{ color: var(--muted); max-width: 58ch; }
 .cta{ display: flex; gap: .8rem; margin-top: 1rem; flex-wrap: wrap; }
 
@@ -260,6 +349,7 @@ body{
 .link{ color: var(--brand); text-decoration: none; font-weight: 700; }
 .link:hover{ text-decoration: underline; }
 .bullets{ margin: .6rem 0 0 1rem; color: var(--muted); }
+
 
 /* Tags */
 .tags, .project-tags{
