@@ -194,6 +194,7 @@ body{
   align-items: center;
   justify-content: space-between;
   padding: .8rem 0;
+  gap: 1rem;
 }
 .brand{
   display: inline-flex; align-items: center; gap: .6rem;
@@ -207,10 +208,59 @@ body{
   box-shadow: none;
 }
 .brand-text{ font-size: 1rem; }
+.header-right{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 .nav a{
   color: var(--muted); text-decoration: none; margin-left: 1rem; font-weight: 600;
 }
 .nav a:hover{ color: var(--text); }
+
+/* Language Toggle */
+.lang-toggle{
+  position: relative;
+  background: transparent;
+  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+.lang-toggle:hover{
+  opacity: 0.8;
+}
+.lang-toggle .flag{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.lang-toggle .flag-nl{
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+.lang-toggle .flag-en{
+  transform: translate(50%, -50%);
+  opacity: 0;
+}
+.lang-toggle.swapped .flag-nl{
+  transform: translate(-150%, -50%);
+  opacity: 0;
+}
+.lang-toggle.swapped .flag-en{
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
 
 /* Navigation (responsive) */
 .nav-toggle{
@@ -250,9 +300,10 @@ body{
 
 @media (max-width: 650px){
   .header-inner{ position: relative; }
+  .header-right{ position: relative; }
   .nav-toggle{ display: inline-flex; }
   .nav{
-    position: absolute; top: 100%; right: 0;
+    position: absolute; top: calc(100% + 12px); right: 0;
     display: flex; flex-direction: column; gap: .4rem;
     padding: .6rem;
     background: linear-gradient(180deg, var(--panel), var(--panel-2));
@@ -286,6 +337,16 @@ body{
   .nav.is-open a:nth-child(3){ transition-delay: .18s; }
   .nav.is-open a:nth-child(4){ transition-delay: .24s; }
   .nav.is-open a:nth-child(5){ transition-delay: .30s; }
+  
+  /* Adjust language toggle for mobile */
+  .lang-toggle{
+    width: 32px;
+    height: 32px;
+  }
+  .lang-toggle .flag{
+    width: 22px;
+    height: 22px;
+  }
 }
 
 /* Hero */
