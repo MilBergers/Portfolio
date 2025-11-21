@@ -54,6 +54,31 @@ body{
 }
 .section{ padding: var(--space-5) 0; }
 .hero, .section, #top, #cv-brief{ scroll-margin-top: 80px; }
+
+/* Rotate various text elements throughout the site */
+#over-mij p {
+  transform: rotate(0.2deg) translateX(2px) !important;
+}
+#over-mij p:nth-of-type(2) {
+  transform: rotate(-0.25deg) translateX(-1px) translateY(1px) !important;
+}
+
+/* Rotate links */
+a:not(.btn):not(.icon-link):not(.view-more-btn) {
+  display: inline-block;
+  transform: rotate(0.15deg) !important;
+}
+a:not(.btn):not(.icon-link):not(.view-more-btn):hover {
+  transform: rotate(-0.2deg) scale(1.02) !important;
+}
+
+/* Rotate general paragraphs */
+p {
+  transform: rotate(0.1deg) translateX(1px) !important;
+}
+p:nth-of-type(even) {
+  transform: rotate(-0.15deg) translateX(-1px) translateY(0.5px) !important;
+}
 .grid-2{
   display: grid;
   grid-template-columns: 1fr;
@@ -231,6 +256,12 @@ h2, h3 {
   text-decoration-thickness: 2px !important;
   font-weight: 900 !important;
 }
+h2 {
+  transform: rotate(-0.6deg) translateX(-4px) translateY(1px) !important;
+}
+h3 {
+  transform: rotate(0.4deg) translateX(3px) translateY(-1px) !important;
+}
 
 /* Hero */
 .hero{
@@ -272,7 +303,7 @@ h2, h3 {
   text-align: justify !important;
   letter-spacing: 0.08em !important;
   line-height: 1.3 !important;
-  transform: translateX(3px) rotate(0.1deg) !important;
+  transform: translateX(3px) rotate(0.3deg) translateY(1px) !important;
 }
 .cta{ display: flex; gap: .8rem; margin-top: 1rem; flex-wrap: wrap; }
 
@@ -338,6 +369,15 @@ h2, h3 {
   transform: translateX(3px) rotate(-0.1deg) !important;
   margin-bottom: 5px !important;
 }
+.bullets li:nth-child(1) {
+  transform: translateX(2px) rotate(0.3deg) translateY(-1px) !important;
+}
+.bullets li:nth-child(2) {
+  transform: translateX(-1px) rotate(-0.2deg) translateY(1px) !important;
+}
+.bullets li:nth-child(3) {
+  transform: translateX(4px) rotate(0.25deg) translateY(-0.5px) !important;
+}
 
 
 /* Tags - broken alignment */
@@ -359,10 +399,30 @@ h2, h3 {
   margin: 2px !important;
 }
 /* Branded style for project tags */
+.project-tags{
+  margin-top: 0.3rem !important;
+  margin-left: -5px !important;
+  transform: translateX(10px) rotate(-0.5deg) !important;
+  flex-wrap: wrap !important;
+  gap: 0.3rem 0.8rem !important;
+  overflow: visible !important;
+}
 .project-tags span{
   background: var(--brand);
   color: #fff;
   border-color: var(--border);
+  transform: rotate(0.8deg) translateY(2px) !important;
+  margin: 3px 1px !important;
+  padding: 0.3rem 0.9rem 0.5rem 0.6rem !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.08em !important;
+  position: relative;
+}
+.project-tags span:nth-child(odd) {
+  transform: rotate(-0.6deg) translateY(-1px) !important;
+}
+.project-tags span:nth-child(even) {
+  transform: rotate(0.9deg) translateY(3px) !important;
 }
 
 /* Disable Skills marquee animation */
@@ -418,7 +478,7 @@ h2, h3 {
 .project-card{
   display: grid; grid-template-rows: auto 1fr;
   background: var(--panel);
-  border: 3px solid var(--border);
+  border: none !important;
   border-radius: 0 !important;
   overflow: visible !important;
   box-shadow: none;
@@ -435,27 +495,33 @@ h2, h3 {
   display: none;
 }
 .view-more-btn{
-  display: inline-flex;
-  align-items: center;
-  margin-top: 0.75rem;
-  margin-left: auto;
-  padding: 0.5rem 0.9rem;
+  display: inline-block !important;
+  align-items: unset !important;
+  margin-top: 0.4rem !important;
+  margin-left: 20px !important;
+  margin-right: -10px !important;
+  padding: 0.4rem 1.1rem 0.6rem 0.7rem !important;
   background: transparent;
   color: var(--brand);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
+  text-decoration: underline !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
   border-radius: 0 !important;
   border: 2px solid var(--brand);
   transition: none;
-  width: fit-content;
+  width: auto !important;
+  transform: rotate(-0.8deg) translateX(5px) !important;
+  letter-spacing: 0.1em !important;
+  position: relative;
+  z-index: 2;
 }
 .view-more-btn:hover{
   background: var(--brand);
   color: #fff;
   border-color: var(--brand);
-  transform: none;
+  transform: rotate(0.5deg) translateX(-3px) scale(1.05) !important;
   box-shadow: none;
+  text-decoration: line-through !important;
 }
 /* Stretch all images - extremely stretched and broken */
 .project-card img{
@@ -555,29 +621,49 @@ h2, h3 {
   color: var(--muted); font-weight: 600;
 }
 .project-content{ 
-  padding: 1rem 1rem 1.2rem; 
-  display: flex;
-  flex-direction: column;
-  transform: translateX(5px) !important;
+  padding: 0.5rem 2rem 0.8rem 0.3rem !important; 
+  display: block !important;
+  flex-direction: unset !important;
+  transform: translateX(5px) rotate(0.5deg) !important;
+  overflow: visible !important;
+  position: relative;
 }
 .project-content h3{
-  margin: 0 0 .4rem 0; 
-  line-height: 0.9 !important;
-  letter-spacing: 0.1em !important;
-  transform: rotate(-0.3deg) !important;
-  font-size: 1.1em !important;
+  margin: 0 0 .2rem -10px !important; 
+  line-height: 0.8 !important;
+  letter-spacing: 0.15em !important;
+  transform: rotate(-1.2deg) translateX(8px) !important;
+  font-size: 1.3em !important;
+  word-spacing: 0.2em !important;
+  text-align: left !important;
+  width: 120% !important;
+  overflow: visible !important;
+  position: relative;
+  z-index: 1;
 }
 .project-content p{ 
   color: var(--muted); 
-  margin: 0 0 .6rem 0; 
-  line-height: 1.1 !important;
-  letter-spacing: 0.05em !important;
-  text-align: justify !important;
-  transform: translateX(-2px) !important;
+  margin: 0.5rem 0 0.3rem 15px !important; 
+  line-height: 1.4 !important;
+  letter-spacing: 0.08em !important;
+  text-align: left !important;
+  transform: translateX(-5px) rotate(0.3deg) !important;
+  width: 95% !important;
+  text-indent: -10px !important;
+  overflow: visible !important;
+  word-break: break-word !important;
+  hyphens: auto !important;
 }
 .year{
-  font-size: .85rem; font-weight: 800; color: var(--brand);
-  letter-spacing: .2px; margin-left: .25rem;
+  font-size: .9rem !important; 
+  font-weight: 900 !important; 
+  color: var(--brand);
+  letter-spacing: .3em !important; 
+  margin-left: .5rem !important;
+  margin-right: -0.3rem !important;
+  transform: rotate(1.2deg) translateY(-2px) !important;
+  display: inline-block;
+  position: relative;
 }
 .note{ color: var(--muted); margin-top: var(--space-2); text-align: center; }
 .project-note{
@@ -588,6 +674,7 @@ h2, h3 {
   background: rgba(255, 0, 0, 0.2);
   border-left: 3px solid var(--brand);
   border-radius: 0 !important;
+  transform: rotate(-0.4deg) translateX(-3px) translateY(1px) !important;
 }
 
 /* Contact - broken grid */
@@ -610,73 +697,145 @@ h2, h3 {
   transform: rotate(0.4deg) translateY(5px) !important;
   margin-bottom: 10px !important;
 }
+.contact-card p {
+  transform: rotate(0.2deg) translateX(2px) !important;
+}
+.contact-card p:nth-child(2) {
+  transform: rotate(-0.3deg) translateX(-1px) translateY(1px) !important;
+}
+.contact-card p:nth-child(3) {
+  transform: rotate(0.15deg) translateX(3px) translateY(-0.5px) !important;
+}
 .contact-card a:not(.btn){ 
   color: var(--text); 
   text-decoration: underline !important; 
   font-weight: 700 !important;
   letter-spacing: 0.05em !important;
   transform: rotate(-0.2deg) !important;
+  display: inline-block;
 }
 .contact-card a:not(.btn):hover{ 
   color: var(--text) !important; 
   text-decoration: line-through !important;
-  transform: rotate(0.2deg) scale(1.1) !important;
+  transform: rotate(0.4deg) scale(1.1) translateX(2px) !important;
 }
 .contact-card .btn:hover{ color: #fff; text-decoration: none; }
 
-/* Center CV button vertically inside its card */
+/* Center CV button vertically inside its card - BROKEN */
 #cv-brief{
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  transform: rotate(-0.8deg) translateX(15px) translateY(-5px) !important;
+  padding-left: 20px !important;
+  padding-right: 10px !important;
+  overflow: visible !important;
 }
 #cv-brief .cta{
-  margin-top: 0;
-  margin-bottom: 1.2rem;
+  margin-top: 0.5rem !important;
+  margin-bottom: 1.5rem !important;
+  margin-left: -10px !important;
+  transform: rotate(1.2deg) !important;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+}
+#cv-brief .btn{
+  transform: rotate(-1.5deg) translateX(8px) translateY(3px) !important;
+  padding: 0.9rem 1.3rem 0.7rem 0.9rem !important;
+  letter-spacing: 0.15em !important;
+  font-size: 0.95em !important;
+  border-width: 4px !important;
+  width: auto !important;
+  margin-left: 5px !important;
+  position: relative;
+  z-index: 1;
+}
+#cv-brief .btn:hover{
+  transform: rotate(1.8deg) translateX(-5px) translateY(-2px) scale(1.1) !important;
+  text-decoration: line-through !important;
 }
 
-/* Social links under CV */
+/* Social links under CV - BROKEN */
 #cv-brief .social-links{
   display: flex;
-  align-items: center;
-  gap: .6rem;
-  margin-top: .6rem;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 0.4rem 0.9rem !important;
+  margin-top: 0.8rem !important;
+  margin-left: -5px !important;
+  transform: rotate(0.6deg) translateX(10px) !important;
+  flex-wrap: wrap !important;
+  overflow: visible !important;
 }
 #cv-brief .icon{
   display: inline-block;
-  width: 28px; height: 28px;
-  filter: none;
+  width: 32px !important; 
+  height: 32px !important;
+  filter: contrast(200%) brightness(80%) !important;
+  transform: scale(1.1) !important;
 }
 #cv-brief .icon-link{
   display: inline-flex;
-  align-items: center; justify-content: center;
-  width: 40px; height: 40px;
+  align-items: center; 
+  justify-content: center;
+  width: 45px !important; 
+  height: 45px !important;
   border-radius: 0 !important;
-  border: 1px solid var(--border);
+  border: 3px solid var(--border) !important;
   background: var(--panel-2);
   transition: none;
+  transform: rotate(-0.5deg) !important;
+  margin: 2px !important;
+  position: relative;
+}
+#cv-brief .icon-link:nth-child(1){
+  transform: rotate(1.2deg) translateY(-3px) translateX(2px) !important;
+}
+#cv-brief .icon-link:nth-child(2){
+  transform: rotate(-0.8deg) translateY(2px) translateX(-1px) !important;
+}
+#cv-brief .icon-link:nth-child(3){
+  transform: rotate(0.9deg) translateY(-2px) translateX(3px) !important;
 }
 #cv-brief .icon-link:hover{
-  transform: none;
-  border-color: var(--border);
+  transform: rotate(2deg) scale(1.15) translateY(-5px) !important;
+  border-color: var(--text) !important;
+  background: var(--text) !important;
+  border-width: 4px !important;
+}
+#cv-brief .icon-link:hover .icon{
+  filter: contrast(300%) brightness(120%) invert(1) !important;
+  transform: scale(1.2) rotate(5deg) !important;
 }
 
-/* Make the Social SVGs use brand color */
+/* Make the Social SVGs use brand color - BROKEN */
 .icon-linkedin,
 .icon-github,
 .icon-instagram {
-  width: 24px;
-  height: 24px;
+  width: 28px !important;
+  height: 28px !important;
   display: inline-block;
   background: var(--brand);
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
-  -webkit-mask-size: contain;
+  -webkit-mask-size: 120% !important;
   mask-repeat: no-repeat;
   mask-position: center;
-  mask-size: contain;
+  mask-size: 120% !important;
   background-clip: border-box;
+  transform: rotate(-2deg) scale(1.1) !important;
+  filter: contrast(150%) brightness(90%) !important;
+}
+.icon-linkedin {
+  transform: rotate(1.5deg) scale(1.15) !important;
+}
+.icon-github {
+  transform: rotate(-1.2deg) scale(1.1) !important;
+}
+.icon-instagram {
+  transform: rotate(0.8deg) scale(1.2) !important;
 }
 
 .icon-linkedin {
@@ -715,6 +874,7 @@ h2, h3 {
   letter-spacing: 0.1em !important;
   font-weight: 700 !important;
   text-decoration: underline !important;
+  transform: rotate(0.3deg) translateX(-2px) translateY(1px) !important;
 }
 .footer-inner .link{ position: absolute; right: 0; }
 
