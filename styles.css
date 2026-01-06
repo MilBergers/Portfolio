@@ -611,6 +611,38 @@ body{
   margin-bottom: 1.2rem; /* add space below CV button */
 }
 
+/* Pulsating glow animation for CV button */
+#cv-brief .btn {
+  animation: cv-pulse 2s ease-in-out infinite;
+  position: relative;
+}
+
+@keyframes cv-pulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 15px rgba(255, 77, 79, 0.4),
+      0 0 30px rgba(255, 77, 79, 0.2),
+      0 0 45px rgba(255, 77, 79, 0.1),
+      var(--shadow);
+  }
+  50% {
+    box-shadow: 
+      0 0 20px rgba(255, 77, 79, 0.5),
+      0 0 35px rgba(255, 77, 79, 0.3),
+      0 0 50px rgba(255, 77, 79, 0.15),
+      var(--shadow);
+  }
+}
+
+#cv-brief .btn:hover {
+  animation: none; /* Stop animation on hover */
+  box-shadow: 
+    0 0 20px rgba(255, 77, 79, 0.5),
+    0 0 35px rgba(255, 77, 79, 0.3),
+    0 0 50px rgba(255, 77, 79, 0.15),
+    var(--shadow);
+}
+
 /* Social links under CV */
 #cv-brief .social-links{
   display: flex;
