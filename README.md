@@ -1,6 +1,6 @@
 # Portfolio — Emile Bergers
 
-A portfolio website showcasing projects and skills.
+A Simple portfolio website showcasing projects and skills.
 
 ## Technologies
 
@@ -8,9 +8,9 @@ A portfolio website showcasing projects and skills.
 - CSS3
 - JavaScript
 - Google Fonts (Montserrat)
-- Cloudflare Pages (with Functions)
-- Hosted via Cloudflare
-- API secrets encrypted
+- Hosted via Cloudflare Pages
+- Cloudflare Functions for API endpoints
+- API secrets encrypted via environment variables
 
 
 ## Author
@@ -18,3 +18,4 @@ A portfolio website showcasing projects and skills.
 **Emile Bergers**
 - Email: emile.bergers@gmail.com
 - LinkedIn: [EmileBergers](https://www.linkedin.com/in/EmileBergers/)
+- GitHub: [MilBergers](https://github.com/MilBergers)

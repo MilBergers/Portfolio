@@ -50,6 +50,20 @@
           'live.music.loading': 'Laden…',
           'live.music.nowPlaying': 'Nu aan het spelen',
           'live.music.recent': 'Recent gespeeld',
+          'live.github.label': 'Laatste Commit',
+          'live.github.loading': 'Laden…',
+          'live.github.ago': 'geleden',
+          'live.github.justNow': 'Nu net',
+          'live.github.minute': 'minuut',
+          'live.github.minutes': 'minuten',
+          'live.github.hour': 'uur',
+          'live.github.hours': 'uur',
+          'live.github.day': 'dag',
+          'live.github.days': 'dagen',
+          'live.github.week': 'week',
+          'live.github.weeks': 'weken',
+          'live.github.month': 'maand',
+          'live.github.months': 'maanden',
           
           // Projects
           'projects.title': 'Projecten',
@@ -186,6 +200,20 @@
           'live.music.loading': 'Loading…',
           'live.music.nowPlaying': 'Now playing',
           'live.music.recent': 'Recently played',
+          'live.github.label': 'Last Commit',
+          'live.github.loading': 'Loading…',
+          'live.github.ago': 'ago',
+          'live.github.justNow': 'Just now',
+          'live.github.minute': 'minute',
+          'live.github.minutes': 'minutes',
+          'live.github.hour': 'hour',
+          'live.github.hours': 'hours',
+          'live.github.day': 'day',
+          'live.github.days': 'days',
+          'live.github.week': 'week',
+          'live.github.weeks': 'weeks',
+          'live.github.month': 'month',
+          'live.github.months': 'months',
           
           // Projects
           'projects.title': 'Projects',
@@ -573,9 +601,12 @@
           render: function() {
             renderTime();
             renderWeather();
-            // Also re-render music widget when toggling broken mode
+            // Also re-render music and GitHub widgets when toggling broken mode
             if (window.renderMusicWidget) {
               window.renderMusicWidget();
+            }
+            if (window.renderGithubWidget) {
+              window.renderGithubWidget();
             }
           }
         };
@@ -696,6 +727,130 @@
         // Initial fetch + interval (update every 2 minutes)
         fetchLastFm();
         setInterval(fetchLastFm, 2 * 60 * 1000);
+      })();
+
+      // GitHub Last Commit
+      (function() {
+        var els = {
+          time: document.getElementById('github-time'),
+          status: document.getElementById('github-status')
+        };
+
+        if (!els.time || !els.status) return;
+
+        var state = {
+          lastCommit: null
+        };
+
+        function getLang() {
+          return window.currentLanguage || 'nl';
+        }
+
+        function formatTimeAgo(date) {
+          var lang = getLang();
+          var now = new Date();
+          var diffMs = now - new Date(date);
+          var diffMinutes = Math.floor(diffMs / 60000);
+          var diffHours = Math.floor(diffMs / 3600000);
+          var diffDays = Math.floor(diffMs / 86400000);
+          var diffWeeks = Math.floor(diffDays / 7);
+          var diffMonths = Math.floor(diffDays / 30);
+
+          var agoText = translations[lang]['live.github.ago'] || 'ago';
+
+          if (diffMinutes < 1) {
+            return translations[lang]['live.github.justNow'] || 'Just now';
+          } else if (diffMinutes === 1) {
+            var unit = translations[lang]['live.github.minute'] || 'minute';
+            return '1 ' + unit + ' ' + agoText;
+          } else if (diffMinutes < 60) {
+            var unit = translations[lang]['live.github.minutes'] || 'minutes';
+            return diffMinutes + ' ' + unit + ' ' + agoText;
+          } else if (diffHours === 1) {
+            var unit = translations[lang]['live.github.hour'] || 'hour';
+            return '1 ' + unit + ' ' + agoText;
+          } else if (diffHours < 24) {
+            var unit = translations[lang]['live.github.hours'] || 'hours';
+            return diffHours + ' ' + unit + ' ' + agoText;
+          } else if (diffDays === 1) {
+            var unit = translations[lang]['live.github.day'] || 'day';
+            return '1 ' + unit + ' ' + agoText;
+          } else if (diffDays < 7) {
+            var unit = translations[lang]['live.github.days'] || 'days';
+            return diffDays + ' ' + unit + ' ' + agoText;
+          } else if (diffWeeks === 1) {
+            var unit = translations[lang]['live.github.week'] || 'week';
+            return '1 ' + unit + ' ' + agoText;
+          } else if (diffWeeks < 4) {
+            var unit = translations[lang]['live.github.weeks'] || 'weeks';
+            return diffWeeks + ' ' + unit + ' ' + agoText;
+          } else if (diffMonths === 1) {
+            var unit = translations[lang]['live.github.month'] || 'month';
+            return '1 ' + unit + ' ' + agoText;
+          } else {
+            var unit = translations[lang]['live.github.months'] || 'months';
+            return diffMonths + ' ' + unit + ' ' + agoText;
+          }
+        }
+
+        function renderGithub() {
+          var lang = getLang();
+
+          // Check if broken mode is enabled
+          var isBroken = document.getElementById('broken-stylesheet') !== null;
+
+          if (isBroken) {
+            els.time.textContent = 'ERROR_500';
+            els.status.textContent = lang === 'en' ? 'API_ERROR: TIMEOUT' : 'API_FOUT: TIMEOUT';
+            els.time.style.color = '#ff0000';
+            els.status.style.color = '#ff0000';
+            return;
+          }
+
+          // Normal mode
+          els.time.style.color = '';
+          els.status.style.color = '';
+
+          if (!state.lastCommit) {
+            els.time.textContent = '—';
+            els.status.textContent = translations[lang]['live.github.loading'] || (lang === 'en' ? 'Loading…' : 'Laden…');
+            return;
+          }
+
+          els.time.textContent = formatTimeAgo(state.lastCommit);
+          els.status.textContent = ''; // No status message, just show the time
+        }
+
+        // Expose renderGithub globally
+        window.renderGithubWidget = renderGithub;
+
+        async function fetchGithub() {
+          try {
+            var res = await fetch('/api/github', { headers: { 'Accept': 'application/json' } });
+            if (!res.ok) throw new Error('GitHub request failed: ' + res.status);
+
+            var data = await res.json();
+            if (data.error) throw new Error(data.error);
+
+            state.lastCommit = data.lastCommit;
+            renderGithub();
+          } catch (e) {
+            var lang = getLang();
+            els.time.textContent = '—';
+            els.status.textContent = (lang === 'en') ? 'GitHub unavailable' : 'GitHub niet beschikbaar';
+          }
+        }
+
+        // Initial fetch + interval (update every 5 minutes)
+        fetchGithub();
+        setInterval(fetchGithub, 5 * 60 * 1000);
+
+        // Update time ago display every minute
+        setInterval(function() {
+          if (state.lastCommit) {
+            renderGithub();
+          }
+        }, 60 * 1000);
       })();
   
       // Mouse tracking for spotlight effect
