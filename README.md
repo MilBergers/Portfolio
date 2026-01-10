@@ -8,6 +8,7 @@ A modern, responsive portfolio website showcasing projects and skills.
 - CSS3
 - JavaScript
 - Google Fonts (Montserrat)
+-Hosted via Cloudflare
 
 
 ## Author

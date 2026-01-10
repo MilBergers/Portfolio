@@ -580,6 +580,39 @@ body{
   border-radius: 6px;
 }
 
+/* Live */
+.live-grid{
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 800px){
+  .live-grid{ grid-template-columns: 1fr 1fr; }
+}
+.live-label{
+  color: var(--muted);
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: .82rem;
+}
+.live-value{
+  margin-top: .35rem;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+.live-unit{
+  margin-left: .25rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.live-meta{
+  margin-top: .45rem;
+  color: var(--muted);
+  font-weight: 600;
+}
 /* Contact */
 .contact-grid{
   display: grid; gap: var(--space-3);
