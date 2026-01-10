@@ -890,6 +890,108 @@ h3 {
   }
 }
 
+/* Live Section - Broken */
+#live h2 {
+  transform: rotate(-0.8deg) translateX(-6px) translateY(2px) !important;
+  letter-spacing: 0.2em !important;
+  line-height: 0.85 !important;
+  text-decoration: underline !important;
+  text-decoration-thickness: 3px !important;
+  font-weight: 900 !important;
+}
+
+.live-tag {
+  transform: rotate(1.2deg) translateX(5px) translateY(-3px) !important;
+  display: inline-block;
+  letter-spacing: 0.15em !important;
+}
+
+.live-grid {
+  transform: translateX(-8px) translateY(5px) rotate(0.3deg) !important;
+  margin-left: 10px !important;
+}
+
+.live-card {
+  transform: rotate(-0.8deg) translateX(5px) translateY(3px) !important;
+  border: 3px solid var(--border) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: var(--panel) !important;
+  padding: var(--space-3) !important;
+  margin-bottom: 10px !important;
+}
+
+.live-card:nth-child(1) {
+  transform: rotate(1.2deg) translateX(-3px) translateY(-2px) !important;
+}
+
+.live-card:nth-child(2) {
+  transform: rotate(-1.5deg) translateX(8px) translateY(5px) !important;
+}
+
+.live-card:nth-child(3) {
+  transform: rotate(0.9deg) translateX(-5px) translateY(2px) !important;
+}
+
+.live-label {
+  transform: rotate(-0.4deg) translateX(2px) !important;
+  letter-spacing: 0.2em !important;
+  font-weight: 900 !important;
+  text-decoration: underline !important;
+}
+
+.live-value {
+  transform: rotate(0.6deg) translateX(-3px) translateY(2px) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.1em !important;
+  line-height: 0.9 !important;
+}
+
+.live-meta {
+  transform: rotate(-0.3deg) translateX(4px) translateY(1px) !important;
+  letter-spacing: 0.08em !important;
+}
+
+.live-unit {
+  transform: rotate(0.5deg) !important;
+  display: inline-block;
+}
+
+.live-music-content {
+  transform: translateX(-5px) rotate(0.4deg) !important;
+  margin-top: 0.5rem !important;
+}
+
+.live-music-artwork {
+  border-radius: 0 !important;
+  border: 2px solid var(--border) !important;
+  transform: rotate(-2deg) scale(1.1) !important;
+  filter: contrast(200%) brightness(120%) saturate(150%) !important;
+}
+
+.live-music-artwork img {
+  image-rendering: pixelated !important;
+  image-rendering: -moz-crisp-edges !important;
+  image-rendering: crisp-edges !important;
+  filter: contrast(250%) brightness(140%) !important;
+}
+
+.live-music-info {
+  transform: rotate(0.5deg) translateX(3px) !important;
+}
+
+.live-music-title {
+  transform: rotate(-0.8deg) translateX(-2px) !important;
+  letter-spacing: 0.1em !important;
+  line-height: 0.9 !important;
+  font-weight: 900 !important;
+}
+
+.live-music-status {
+  transform: rotate(0.4deg) translateX(5px) translateY(1px) !important;
+  letter-spacing: 0.08em !important;
+}
+
 /* Toggle switch section */
 .toggle-section {
   padding: var(--space-4) 0;

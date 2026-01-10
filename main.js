@@ -466,6 +466,22 @@
         };
 
         function renderTime() {
+          // Check if broken mode is enabled
+          var isBroken = document.getElementById('broken-stylesheet') !== null;
+          var lang = getLang();
+
+          if (isBroken) {
+            els.time.textContent = '??:??:??';
+            els.date.textContent = lang === 'en' ? 'TIME_SYNC_ERROR' : 'TIJDSYNCHRONISATIE_FOUT';
+            els.time.style.color = '#ff0000';
+            els.date.style.color = '#ff0000';
+            return;
+          }
+
+          // Normal mode
+          els.time.style.color = '';
+          els.date.style.color = '';
+
           if (state.ghentTime === null) {
             els.time.textContent = '--:--:--';
             els.date.textContent = '—';
@@ -499,6 +515,21 @@
   
         function renderWeather() {
           var lang = getLang();
+
+          // Check if broken mode is enabled
+          var isBroken = document.getElementById('broken-stylesheet') !== null;
+
+          if (isBroken) {
+            els.temp.textContent = 'ERR';
+            els.weather.textContent = lang === 'en' ? 'API_ERROR: 500_INTERNAL_SERVER_ERROR' : 'API_FOUT: 500_INTERNE_SERVER_FOUT';
+            els.weather.style.color = '#ff0000';
+            els.temp.style.color = '#ff0000';
+            return;
+          }
+
+          // Normal mode
+          els.weather.style.color = '';
+          els.temp.style.color = '';
   
           if (state.temperature === null || state.weatherCode === null) {
             els.weather.textContent = translations[lang]['live.weather.loading'] || (lang === 'en' ? 'Loading…' : 'Laden…');
@@ -542,6 +573,10 @@
           render: function() {
             renderTime();
             renderWeather();
+            // Also re-render music widget when toggling broken mode
+            if (window.renderMusicWidget) {
+              window.renderMusicWidget();
+            }
           }
         };
   
@@ -589,6 +624,25 @@
         function renderMusic() {
           var lang = getLang();
 
+          // Check if broken mode is enabled
+          var isBroken = document.getElementById('broken-stylesheet') !== null;
+
+          if (isBroken) {
+            els.track.textContent = 'ERROR_404';
+            els.artist.textContent = lang === 'en' ? 'CONNECTION_REFUSED' : 'VERBINDING_GEWEIGERD';
+            els.status.textContent = lang === 'en' ? 'API_ERROR: FETCH_FAILED' : 'API_FOUT: OPHALEN_MISLUKT';
+            els.artwork.innerHTML = '';
+            els.track.style.color = '#ff0000';
+            els.artist.style.color = '#ff0000';
+            els.status.style.color = '#ff0000';
+            return;
+          }
+
+          // Normal mode
+          els.track.style.color = '';
+          els.artist.style.color = '';
+          els.status.style.color = '';
+
           if (!state.title || !state.artist) {
             els.track.textContent = '—';
             els.artist.textContent = '—';
@@ -612,6 +666,9 @@
             els.artwork.innerHTML = '';
           }
         }
+
+        // Expose renderMusic globally
+        window.renderMusicWidget = renderMusic;
 
         async function fetchLastFm() {
           try {
@@ -849,19 +906,19 @@
             brokenStylesheet.id = 'broken-stylesheet';
             document.head.appendChild(brokenStylesheet);
           }
-  
+
           // Stop typewriter animation
           if (window.typewriterTimeout) {
             clearTimeout(window.typewriterTimeout);
             window.typewriterTimeout = null;
           }
-  
+
           // Hide back to top button
           var backToTop = document.getElementById('back-to-top');
           if (backToTop) {
             backToTop.style.display = 'none';
           }
-  
+
           // Disable card tilt effects by removing event listeners
           var cards = document.querySelectorAll('.project-card');
           cards.forEach(function(card) {
@@ -869,7 +926,7 @@
             card.style.transition = 'none';
             card.style.pointerEvents = 'auto';
           });
-  
+
           // Disable scroll reveal observer
           var reveals = document.querySelectorAll('.reveal');
           if (revealObserver) {
@@ -881,12 +938,17 @@
           reveals.forEach(function(element) {
             element.classList.add('active');
           });
-  
+
           // Stop marquee animations
           var marqueeTracks = document.querySelectorAll('.marquee-track');
           marqueeTracks.forEach(function(track) {
             track.style.animation = 'none';
           });
+
+          // Re-render live widgets to show error messages
+          if (window.liveGent && typeof window.liveGent.render === 'function') {
+            window.liveGent.render();
+          }
         }
   
         function disableBrokenMode() {
@@ -895,13 +957,13 @@
             brokenStylesheet.remove();
             brokenStylesheet = null;
           }
-  
+
           // Restore back to top button
           var backToTop = document.getElementById('back-to-top');
           if (backToTop) {
             backToTop.style.display = '';
           }
-  
+
           // Restore card tilt effects (event listeners are still attached)
           var cards = document.querySelectorAll('.project-card');
           cards.forEach(function(card) {
@@ -932,16 +994,21 @@
           reveals.forEach(function(element) {
             revealObserver.observe(element);
           });
-  
+
           // Restore marquee animations
           var marqueeTracks = document.querySelectorAll('.marquee-track');
           marqueeTracks.forEach(function(track) {
             track.style.animation = '';
           });
-  
+
           // Restart typewriter
           if (window.restartTypewriter) {
             window.restartTypewriter();
+          }
+
+          // Re-render live widgets to restore normal display
+          if (window.liveGent && typeof window.liveGent.render === 'function') {
+            window.liveGent.render();
           }
         }
   
