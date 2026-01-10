@@ -1,6 +1,6 @@
 # Portfolio — Emile Bergers
 
-A modern, responsive portfolio website showcasing projects and skills.
+A portfolio website showcasing projects and skills.
 
 ## Technologies
 
@@ -11,6 +11,7 @@ A modern, responsive portfolio website showcasing projects and skills.
 - Cloudflare Pages (with Functions)
 - Hosted via Cloudflare
 - API secrets encrypted
+
 
 ## Author
 

@@ -179,6 +179,41 @@
       </div>
     </section>
 
+    <!-- Live -->
+    <section id="live" class="section">
+      <div class="container">
+        <h2 class="reveal" data-i18n="live.title">Live in Gent <span class="live-tag">• LIVE</span></h2>
+
+        <div class="live-grid">
+          <div class="card live-card reveal">
+            <div class="live-label" data-i18n="live.time.label">Tijd</div>
+            <div class="live-value" id="gent-time" aria-live="polite">--:--</div>
+            <div class="live-meta" id="gent-date">—</div>
+          </div>
+
+          <div class="card live-card reveal reveal-delay-1">
+            <div class="live-label" data-i18n="live.weather.label">Weer</div>
+            <div class="live-value">
+              <span id="gent-temp">--</span><span class="live-unit">°C</span>
+            </div>
+            <div class="live-meta" id="gent-weather" aria-live="polite" data-i18n="live.weather.loading">Laden…</div>
+          </div>
+
+          <div class="card live-card reveal reveal-delay-2">
+            <div class="live-label" data-i18n="live.music.label">Muziek</div>
+            <div class="live-music-content">
+              <div id="lastfm-artwork" class="live-music-artwork"></div>
+              <div class="live-music-info">
+                <div class="live-value live-music-title" id="lastfm-track" aria-live="polite">—</div>
+                <div class="live-meta" id="lastfm-artist">—</div>
+              </div>
+            </div>
+            <div class="live-meta live-music-status" id="lastfm-status" data-i18n="live.music.loading">Laden…</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Toggle Section -->
     <section class="toggle-section">
       <div class="container">
@@ -339,41 +374,6 @@
         </div>
 
         
-      </div>
-    </section>
-
-    <!-- Live -->
-    <section id="live" class="section">
-      <div class="container">
-        <h2 class="reveal" data-i18n="live.title">Live in Gent</h2>
-
-        <div class="live-grid">
-          <div class="card live-card reveal">
-            <div class="live-label" data-i18n="live.time.label">Tijd</div>
-            <div class="live-value" id="gent-time" aria-live="polite">--:--</div>
-            <div class="live-meta" id="gent-date">—</div>
-          </div>
-
-          <div class="card live-card reveal reveal-delay-1">
-            <div class="live-label" data-i18n="live.weather.label">Weer</div>
-            <div class="live-value">
-              <span id="gent-temp">--</span><span class="live-unit">°C</span>
-            </div>
-            <div class="live-meta" id="gent-weather" aria-live="polite" data-i18n="live.weather.loading">Laden…</div>
-          </div>
-
-          <div class="card live-card reveal reveal-delay-2">
-            <div class="live-label" data-i18n="live.music.label">Muziek</div>
-            <div class="live-music-content">
-              <div id="lastfm-artwork" class="live-music-artwork"></div>
-              <div class="live-music-info">
-                <div class="live-value live-music-title" id="lastfm-track" aria-live="polite">—</div>
-                <div class="live-meta" id="lastfm-artist">—</div>
-              </div>
-            </div>
-            <div class="live-meta live-music-status" id="lastfm-status" data-i18n="live.music.loading">Laden…</div>
-          </div>
-        </div>
       </div>
     </section>
 

@@ -581,6 +581,20 @@ body{
 }
 
  /* Live */
+.live-tag{
+  display: inline-block;
+  color: var(--brand);
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.6rem;
+  background: rgba(255, 77, 79, 0.1);
+  border: 1px solid var(--brand);
+  border-radius: 4px;
+  vertical-align: middle;
+}
 .live-grid{
   display: grid;
   gap: var(--space-3);

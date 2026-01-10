@@ -362,23 +362,22 @@
   
         function formatTime(date) {
           var lang = getLang() === 'en' ? 'en-GB' : 'nl-BE';
-          return new Intl.DateTimeFormat(lang, {
-            timeZone: TIME_ZONE,
+          return date.toLocaleString(lang, {
             hour: '2-digit',
             minute: '2-digit',
-            second: '2-digit'
-          }).format(date);
+            second: '2-digit',
+            hour12: false
+          });
         }
-  
+
         function formatDate(date) {
           var lang = getLang() === 'en' ? 'en-GB' : 'nl-BE';
-          return new Intl.DateTimeFormat(lang, {
-            timeZone: TIME_ZONE,
+          return date.toLocaleDateString(lang, {
             weekday: 'long',
             year: 'numeric',
             month: 'long',
             day: '2-digit'
-          }).format(date);
+          });
         }
   
         function weatherLabelFromCode(code) {
@@ -462,13 +461,40 @@
         var state = {
           temperature: null,
           weatherCode: null,
-          wind: null
+          wind: null,
+          ghentTime: null
         };
-  
+
         function renderTime() {
-          var now = new Date();
-          els.time.textContent = formatTime(now);
-          els.date.textContent = formatDate(now);
+          if (state.ghentTime === null) {
+            els.time.textContent = '--:--:--';
+            els.date.textContent = '—';
+            return;
+          }
+
+          els.time.textContent = formatTime(state.ghentTime);
+          els.date.textContent = formatDate(state.ghentTime);
+        }
+
+        async function fetchTime() {
+          try {
+            var url = 'https://worldtimeapi.org/api/timezone/Europe/Brussels';
+            var res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+            if (!res.ok) throw new Error('Time request failed: ' + res.status);
+
+            var data = await res.json();
+            if (!data || !data.datetime) throw new Error('Time payload missing "datetime"');
+
+            // Parse the datetime string from the API (format: "2026-01-10T02:34:34.350887+01:00")
+            state.ghentTime = new Date(data.datetime);
+            renderTime();
+          } catch (e) {
+            // Fallback to client-side timezone conversion if API fails
+            console.warn('WorldTimeAPI failed, using fallback:', e);
+            var now = new Date();
+            state.ghentTime = new Date(now.toLocaleString('en-US', { timeZone: TIME_ZONE }));
+            renderTime();
+          }
         }
   
         function renderWeather() {
@@ -520,11 +546,20 @@
         };
   
         // Initial render + intervals
-        renderTime();
+        fetchTime();
         renderWeather();
         fetchWeather();
-  
-        setInterval(renderTime, 1000);
+
+        // Update time every second (use local increment after initial API fetch)
+        setInterval(function() {
+          if (state.ghentTime !== null) {
+            state.ghentTime = new Date(state.ghentTime.getTime() + 1000);
+            renderTime();
+          }
+        }, 1000);
+
+        // Re-fetch time from API every 30 seconds to keep it accurate
+        setInterval(fetchTime, 30 * 1000);
         setInterval(fetchWeather, 10 * 60 * 1000);
       })();
 
