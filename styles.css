@@ -663,6 +663,11 @@ body{
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.live-music-info .live-meta{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .live-music-status{
   margin-top: .35rem;
 }
