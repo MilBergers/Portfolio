@@ -589,6 +589,9 @@ body{
 @media (min-width: 800px){
   .live-grid{ grid-template-columns: 1fr 1fr; }
 }
+@media (min-width: 1200px){
+  .live-grid{ grid-template-columns: 1fr 1fr 1fr; }
+}
 .live-label{
   color: var(--muted);
   font-weight: 800;
@@ -612,6 +615,42 @@ body{
   margin-top: .45rem;
   color: var(--muted);
   font-weight: 600;
+}
+.live-music-content{
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  margin-top: .35rem;
+}
+.live-music-artwork{
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--panel-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.live-music-artwork img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.live-music-info{
+  flex: 1;
+  min-width: 0;
+}
+.live-music-title{
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  margin-top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.live-music-status{
+  margin-top: .35rem;
 }
 /* Contact */
 .contact-grid{

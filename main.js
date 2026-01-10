@@ -46,6 +46,10 @@
           'live.time.label': 'Tijd',
           'live.weather.label': 'Weer',
           'live.weather.loading': 'Laden…',
+          'live.music.label': 'Muziek',
+          'live.music.loading': 'Laden…',
+          'live.music.nowPlaying': 'Nu aan het spelen',
+          'live.music.recent': 'Recent gespeeld',
           
           // Projects
           'projects.title': 'Projecten',
@@ -178,6 +182,10 @@
           'live.time.label': 'Time',
           'live.weather.label': 'Weather',
           'live.weather.loading': 'Loading…',
+          'live.music.label': 'Music',
+          'live.music.loading': 'Loading…',
+          'live.music.nowPlaying': 'Now playing',
+          'live.music.recent': 'Recently played',
           
           // Projects
           'projects.title': 'Projects',
@@ -518,6 +526,84 @@
   
         setInterval(renderTime, 1000);
         setInterval(fetchWeather, 10 * 60 * 1000);
+      })();
+
+      // Last.fm Recently Played
+      (function() {
+        var els = {
+          artwork: document.getElementById('lastfm-artwork'),
+          track: document.getElementById('lastfm-track'),
+          artist: document.getElementById('lastfm-artist'),
+          status: document.getElementById('lastfm-status')
+        };
+
+        if (!els.artwork || !els.track || !els.artist || !els.status) return;
+
+        var state = {
+          title: null,
+          artist: null,
+          url: null,
+          image: null,
+          nowPlaying: false
+        };
+
+        function getLang() {
+          return window.currentLanguage || 'nl';
+        }
+
+        function renderMusic() {
+          var lang = getLang();
+
+          if (!state.title || !state.artist) {
+            els.track.textContent = '—';
+            els.artist.textContent = '—';
+            els.status.textContent = translations[lang]['live.music.loading'] || (lang === 'en' ? 'Loading…' : 'Laden…');
+            els.artwork.innerHTML = '';
+            return;
+          }
+
+          els.track.textContent = state.title;
+          els.artist.textContent = state.artist;
+
+          if (state.nowPlaying) {
+            els.status.textContent = translations[lang]['live.music.nowPlaying'] || (lang === 'en' ? 'Now playing' : 'Nu aan het spelen');
+          } else {
+            els.status.textContent = translations[lang]['live.music.recent'] || (lang === 'en' ? 'Recently played' : 'Recent gespeeld');
+          }
+
+          if (state.image) {
+            els.artwork.innerHTML = '<img src="' + state.image + '" alt="" aria-hidden="true" />';
+          } else {
+            els.artwork.innerHTML = '';
+          }
+        }
+
+        async function fetchLastFm() {
+          try {
+            var res = await fetch('/api/lastfm', { headers: { 'Accept': 'application/json' } });
+            if (!res.ok) throw new Error('Last.fm request failed: ' + res.status);
+
+            var data = await res.json();
+            if (data.error) throw new Error(data.error);
+
+            state.title = data.title;
+            state.artist = data.artist;
+            state.url = data.url;
+            state.image = data.image;
+            state.nowPlaying = data.nowPlaying === true;
+            renderMusic();
+          } catch (e) {
+            var lang = getLang();
+            els.track.textContent = '—';
+            els.artist.textContent = '—';
+            els.status.textContent = (lang === 'en') ? 'Music unavailable' : 'Muziek niet beschikbaar';
+            els.artwork.innerHTML = '';
+          }
+        }
+
+        // Initial fetch + interval (update every 2 minutes)
+        fetchLastFm();
+        setInterval(fetchLastFm, 2 * 60 * 1000);
       })();
   
       // Mouse tracking for spotlight effect
