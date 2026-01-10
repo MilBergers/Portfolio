@@ -919,6 +919,7 @@ h3 {
   background: var(--panel) !important;
   padding: var(--space-3) !important;
   margin-bottom: 10px !important;
+  overflow: hidden !important;
 }
 
 .live-card:nth-child(1) {
@@ -931,6 +932,16 @@ h3 {
 
 .live-card:nth-child(3) {
   transform: rotate(0.9deg) translateX(-5px) translateY(2px) !important;
+}
+
+.live-card:nth-child(4) {
+  transform: rotate(-1.1deg) translateX(4px) translateY(-3px) !important;
+}
+
+/* Make background icons more visible in broken mode */
+.live-card::before {
+  opacity: 0.15 !important;
+  filter: brightness(0) saturate(100%) invert(23%) sepia(98%) saturate(7426%) hue-rotate(358deg) brightness(95%) contrast(115%) !important;
 }
 
 .live-label {

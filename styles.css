@@ -611,6 +611,53 @@ body{
 }
 .live-card{
   min-width: 0; /* Allow grid items to shrink below content size */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background icons for live cards */
+.live-card::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
+  opacity: 0.25;
+  z-index: -1;  
+  pointer-events: none;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+/* Time card icon */
+.live-card:nth-child(1)::before {
+  -webkit-mask-image: url('Assets/images/time.svg');
+  mask-image: url('Assets/images/time.svg');
+}
+
+/* Weather card icon */
+.live-card:nth-child(2)::before {
+  -webkit-mask-image: url('Assets/images/weather.svg');
+  mask-image: url('Assets/images/weather.svg');
+}
+
+/* Music card icon */
+.live-card:nth-child(3)::before {
+  -webkit-mask-image: url('Assets/images/spotify.svg');
+  mask-image: url('Assets/images/spotify.svg');
+}
+
+/* GitHub card icon */
+.live-card:nth-child(4)::before {
+  -webkit-mask-image: url('Assets/images/github.svg');
+  mask-image: url('Assets/images/github.svg');
 }
 .live-label{
   color: var(--muted);
