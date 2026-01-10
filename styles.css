@@ -580,7 +580,7 @@ body{
   border-radius: 6px;
 }
 
-/* Live */
+ /* Live */
 .live-grid{
   display: grid;
   gap: var(--space-3);
