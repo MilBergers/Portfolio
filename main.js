@@ -1198,4 +1198,270 @@
           setLanguage(newLang);
         });
       })();
+
+      // Easter Egg Challenge System
+      (function() {
+        // Quest state
+        const questState = {
+          quest1: { completed: false, clicks: 0, required: 5, unlocked: true },
+          quest2: { completed: false, konamiProgress: 0, unlocked: false },
+          quest3: { completed: false, langSwitches: 0, required: 5, unlocked: false },
+          startTime: null,
+          allCompleted: false
+        };
+
+        // Konami code sequence: up, up, down, down, left, right, left, right, B, A
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+
+        // Get DOM elements
+        const easterEggTrigger = document.getElementById('easter-egg-trigger');
+        const modal = document.getElementById('easter-egg-modal');
+        const modalClose = document.querySelector('.modal-close');
+        const quest1Element = document.getElementById('quest-1');
+        const quest2Element = document.getElementById('quest-2');
+        const quest3Element = document.getElementById('quest-3');
+
+        // Modal functions
+        function openModal() {
+          // Check if user is on mobile
+          const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+          
+          if (isMobile) {
+            showMobileWarning();
+            return;
+          }
+          
+          modal.classList.add('show');
+          if (!questState.startTime) {
+            questState.startTime = Date.now();
+          }
+          updateQuestDisplay();
+        }
+
+        function showMobileWarning() {
+          const modalTitle = document.getElementById('modal-title');
+          const modalBody = document.getElementById('modal-body');
+          
+          modalTitle.textContent = '📱 Mobile Device Detected';
+          modalBody.innerHTML = `
+            <p style="font-size: 1.1rem; color: var(--text); text-align: center;">Sorry! This easter egg challenge requires a keyboard and is only playable on desktop devices.</p>
+            <p style="color: var(--muted); text-align: center; margin-top: 1.5rem;">Come back on a computer to complete the secret quests! 🖥️</p>
+          `;
+          
+          modal.classList.add('show');
+        }
+
+        function closeModal() {
+          modal.classList.remove('show');
+        }
+
+        function updateQuestDisplay() {
+          // Quest 1
+          const q1Counter = quest1Element.querySelector('.quest-counter');
+          const q1Status = quest1Element.querySelector('.quest-status');
+          q1Counter.textContent = `(${questState.quest1.clicks}/${questState.quest1.required})`;
+          if (questState.quest1.completed) {
+            q1Status.textContent = '✅';
+            quest1Element.classList.add('completed');
+            
+            // Unlock Quest 2
+            if (!questState.quest2.unlocked) {
+              questState.quest2.unlocked = true;
+              unlockQuest(quest2Element, 'Quest 2: Enter the Konami Code');
+            }
+          }
+
+          // Quest 2
+          const q2Status = quest2Element.querySelector('.quest-status');
+          if (questState.quest2.unlocked && !questState.quest2.completed) {
+            q2Status.textContent = '⚪';
+          }
+          if (questState.quest2.completed) {
+            q2Status.textContent = '✅';
+            quest2Element.classList.add('completed');
+            
+            // Unlock Quest 3
+            if (!questState.quest3.unlocked) {
+              questState.quest3.unlocked = true;
+              unlockQuest(quest3Element, 'Quest 3: Change language 5 times', '(0/5)');
+            }
+          }
+
+          // Quest 3
+          if (questState.quest3.unlocked) {
+            const q3Counter = quest3Element.querySelector('.quest-counter');
+            const q3Status = quest3Element.querySelector('.quest-status');
+            if (!questState.quest3.completed) {
+              q3Status.textContent = '⚪';
+            }
+            q3Counter.textContent = `(${questState.quest3.langSwitches}/${questState.quest3.required})`;
+            if (questState.quest3.completed) {
+              q3Status.textContent = '✅';
+              quest3Element.classList.add('completed');
+            }
+          }
+
+          // Check if all quests completed
+          if (questState.quest1.completed && questState.quest2.completed && questState.quest3.completed && !questState.allCompleted) {
+            questState.allCompleted = true;
+            showCompletionModal();
+          }
+        }
+
+        function unlockQuest(questElement, questText, counter = '') {
+          questElement.classList.remove('quest-locked');
+          questElement.classList.add('quest-unlocked');
+          
+          const textElement = questElement.querySelector('.quest-text');
+          const counterElement = questElement.querySelector('.quest-counter');
+          
+          textElement.textContent = questText;
+          counterElement.textContent = counter;
+          
+          // Remove animation class after animation completes
+          setTimeout(() => {
+            questElement.classList.remove('quest-unlocked');
+          }, 500);
+        }
+
+        function showCompletionModal() {
+          const endTime = Date.now();
+          const totalSeconds = Math.floor((endTime - questState.startTime) / 1000);
+          const minutes = Math.floor(totalSeconds / 60);
+          const seconds = totalSeconds % 60;
+          
+          const timeString = minutes > 0 
+            ? `${minutes} minute${minutes > 1 ? 's' : ''} and ${seconds} second${seconds !== 1 ? 's' : ''}`
+            : `${seconds} second${seconds !== 1 ? 's' : ''}`;
+
+          const modalTitle = document.getElementById('modal-title');
+          const modalBody = document.getElementById('modal-body');
+          
+          modalTitle.textContent = '🎉 Congratulations! 🎉';
+          modalBody.innerHTML = `
+            <p style="font-size: 1.2rem; color: var(--text);">You completed all the secret quests!</p>
+            <div style="background: linear-gradient(135deg, var(--brand), var(--brand-2)); padding: 2rem; border-radius: 12px; margin: 2rem 0;">
+              <p style="font-size: 2rem; margin: 0; color: white; font-weight: 800;">You wasted ${timeString}</p>
+              <p style="margin: 0.5rem 0 0 0; color: rgba(255,255,255,0.9);">on this easter egg! 😄</p>
+            </div>
+            <p style="color: var(--muted); font-style: italic;">But hey, at least you found it! You're a true explorer! 🔍✨</p>
+            <p style="color: var(--muted); margin-top: 1.5rem; font-size: 0.9rem;">Thanks for taking the time to discover this hidden gem in my portfolio!</p>
+          `;
+        }
+
+        // Quest 1: Click CSS tags 5 times
+        function initQuest1() {
+          const cssTags = document.querySelectorAll('.tag, .project-tags span');
+          cssTags.forEach(tag => {
+            if (tag.textContent.trim() === 'CSS') {
+              tag.style.cursor = 'pointer';
+              tag.addEventListener('click', function(e) {
+                if (!questState.quest1.completed) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  questState.quest1.clicks++;
+                  
+                  // Visual feedback
+                  this.style.transform = 'scale(1.2) rotate(5deg)';
+                  setTimeout(() => {
+                    this.style.transform = '';
+                  }, 200);
+
+                  if (questState.quest1.clicks >= questState.quest1.required) {
+                    questState.quest1.completed = true;
+                  }
+                  
+                  updateQuestDisplay();
+                }
+              });
+            }
+          });
+        }
+
+        // Quest 2: Konami Code
+        function initQuest2() {
+          document.addEventListener('keydown', function(e) {
+            if (!questState.quest2.unlocked || questState.quest2.completed) return;
+
+            const key = e.key;
+            const expectedKey = konamiCode[questState.quest2.konamiProgress];
+
+            if (key === expectedKey) {
+              questState.quest2.konamiProgress++;
+              
+              if (questState.quest2.konamiProgress === konamiCode.length) {
+                questState.quest2.completed = true;
+                updateQuestDisplay();
+              }
+            } else {
+              // Reset if wrong key pressed
+              questState.quest2.konamiProgress = 0;
+            }
+          });
+        }
+
+        // Quest 3: Change language 5 times
+        function initQuest3() {
+          const langToggle = document.getElementById('lang-toggle');
+          if (!langToggle) return;
+
+          langToggle.addEventListener('click', function() {
+            if (!questState.quest3.unlocked || questState.quest3.completed) return;
+            
+            questState.quest3.langSwitches++;
+            
+            // Visual feedback
+            this.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+              this.style.transform = '';
+            }, 200);
+
+            if (questState.quest3.langSwitches >= questState.quest3.required) {
+              questState.quest3.completed = true;
+              
+              // Celebration animation
+              this.style.animation = 'lang-celebrate 0.6s ease';
+              setTimeout(() => {
+                this.style.animation = '';
+              }, 600);
+            }
+            
+            updateQuestDisplay();
+          });
+
+          // Add celebration animation
+          const style = document.createElement('style');
+          style.textContent = `
+            @keyframes lang-celebrate {
+              0%, 100% { transform: scale(1) rotate(0deg); }
+              25% { transform: scale(1.3) rotate(-15deg); }
+              50% { transform: scale(1.3) rotate(15deg); }
+              75% { transform: scale(1.3) rotate(-15deg); }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+
+        // Event listeners
+        if (easterEggTrigger) {
+          easterEggTrigger.addEventListener('click', openModal);
+        }
+
+        if (modalClose) {
+          modalClose.addEventListener('click', closeModal);
+        }
+
+        if (modal) {
+          modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+              closeModal();
+            }
+          });
+        }
+
+        // Initialize all quests
+        initQuest1();
+        initQuest2();
+        initQuest3();
+      })();
   

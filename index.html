@@ -417,6 +417,9 @@
 
   <footer class="site-footer">
     <div class="container footer-inner">
+      <button id="easter-egg-trigger" class="easter-egg-icon" aria-label="Secret Easter Egg">
+        <img src="Assets/images/easter-egg.svg" alt="Easter Egg" width="24" height="24" />
+      </button>
       <p>© <span id="year"></span> Emile Bergers — Portfolio</p>
     </div>
   </footer>
@@ -440,6 +443,35 @@
       </svg>
     </span>
   </a>
+
+  <!-- Easter Egg Modal -->
+  <div id="easter-egg-modal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Close">&times;</button>
+      <h2 id="modal-title">Secret Quest Discovered! 🎉</h2>
+      <div id="modal-body">
+        <p>You found the secret easter egg! Complete these 3 quests to unlock a surprise:</p>
+        <ul class="quest-list">
+          <li id="quest-1" class="quest-item">
+            <span class="quest-status">⚪</span>
+            <span class="quest-text">Quest 1: Click the word "CSS" 5 times</span>
+            <span class="quest-counter">(0/5)</span>
+          </li>
+          <li id="quest-2" class="quest-item quest-locked">
+            <span class="quest-status">🔒</span>
+            <span class="quest-text">Quest 2: ???</span>
+            <span class="quest-counter"></span>
+          </li>
+          <li id="quest-3" class="quest-item quest-locked">
+            <span class="quest-status">🔒</span>
+            <span class="quest-text">Quest 3: ???</span>
+            <span class="quest-counter"></span>
+          </li>
+        </ul>
+        <p class="quest-hint">Good luck, explorer! 🔍</p>
+      </div>
+    </div>
+  </div>
 
   <script src="main.js" defer></script>
   
